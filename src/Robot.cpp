@@ -336,6 +336,7 @@ private:
 		//rearLeftMotor.SetSpeed(rearLeft);
 		//rearRightMotor.SetSpeed(-rearRight);
 
+
 		bool reset_yaw_button_pressed = stick.GetRawButton(1);
 		if (reset_yaw_button_pressed) {
 			ahrs->ZeroYaw();
@@ -354,6 +355,7 @@ private:
 		Wait(0.005); // wait 5ms to avoid hogging CPU cycles
 
 		frc::SmartDashboard::PutNumber("Gyro",ahrs->GetAngle());
+
 		//AHRS has a check PWM not push PWM so they can only be used for sensors
 
 
@@ -392,10 +394,10 @@ private:
 			outakeMotor.SetSpeed(0);
 		}
 
-		//if button 11 is pressed climber motor goes forward at half speed
+		//if button 11 is pressed climber motor goes forward depending on how far the joystick is moved, only going forward proportionally to the absolute value of the joystick's y axis
 		if(stick.GetRawButton(11))
 		{
-			climberMotor.SetSpeed(0.5);
+			climberMotor.SetSpeed(fabs(stick.GetY()));
 		}
 		//if button is not pressed climber motor stops
 		else
